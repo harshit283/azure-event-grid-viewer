@@ -81,7 +81,7 @@ namespace viewer.Controllers
                         return await HandleCloudEvent(jsonContent);
                     }
 
-                    return await HandleGridEvents(jsonContent);
+                    return await HandleGridEvents(jsonContent, Request.QueryString);
                 }
 
                 return BadRequest();                
@@ -114,7 +114,7 @@ namespace viewer.Controllers
             });
         }
 
-        private async Task<IActionResult> HandleGridEvents(string jsonContent)
+        private async Task<IActionResult> HandleGridEvents(string jsonContent, string testing)
         {
             var events = JArray.Parse(jsonContent);
             foreach (var e in events)
@@ -126,7 +126,7 @@ namespace viewer.Controllers
                     "gridupdate",
                     details.Id,
                     details.EventType,
-                    details.Subject,
+                    testing,
                     details.EventTime.ToLongTimeString(),
                     e.ToString());
             }
